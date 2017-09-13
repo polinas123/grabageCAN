@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/control"
+        android:background="#000"
+        tools:context="com.example.android.camera2basic.CameraActivity"
+        tools:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/flash_toggle_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_flash_off"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        tools:ignore="RtlCompat"
+        android:contentDescription="@string/flash_toggle" />
+
+    <ImageView
+        android:id="@+id/selected_pic_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/control"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:contentDescription="@string/preview" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="106dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:id="@+id/control">
+        <ImageView
+            android:id="@+id/take_picture_btn"
+            android:layout_width="@dimen/bottom_bar_button_side"
+            android:layout_height="@dimen/bottom_bar_button_side"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_take_picture_56dp_white"
+            android:contentDescription="@string/take_photo_button" />
+
+        <LinearLayout
+            android:id="@+id/preview_mode_buttons_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/approve_pics_btn"
+                android:layout_width="@dimen/bottom_bar_button_side"
+                android:layout_height="@dimen/bottom_bar_button_side"
+                android:src="@drawable/approve"
+                android:contentDescription="@string/approve_button" />
+
+            <ImageView
+                android:id="@+id/add_pic_btn"
+                android:layout_width="@dimen/bottom_bar_button_side"
+                android:layout_height="@dimen/bottom_bar_button_side"
+                android:src="@drawable/ic_add_picture_56dp_white"
+                android:contentDescription="@string/add_photo_button" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--</FrameLayout>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/taken_pics_preview"
+        android:scrollbars="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:layout_above="@id/control"/>
+
+</RelativeLayout>
+
