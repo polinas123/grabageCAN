@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.sillyv.garbagecan.PermissionsDeniedEvent;
 import com.sillyv.garbagecan.R;
+import com.sillyv.garbagecan.data.Repository;
 import com.sillyv.garbagecan.screen.camera.camera.Camera2BasicFragment;
 import com.sillyv.garbagecan.screen.camera.camera.CameraOldBasicFragment;
 import com.sillyv.garbagecan.util.ButtonIDHappinessMapper;
@@ -220,7 +221,7 @@ public abstract class CameraFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new CameraPresenter(this);
+        presenter = new CameraPresenter(this, Repository.getInstance());
         Bundle args = getArguments();
         filePrefix = (args != null) ? args.getString(PREFIX_ARG) : "";
         useCameraBackFacing = args == null || args.getBoolean(BACK_CAMERA_ARG);

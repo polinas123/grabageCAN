@@ -1,5 +1,7 @@
 package com.sillyv.garbagecan.core;
 
+import com.sillyv.garbagecan.screen.camera.CameraContract;
+
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -14,5 +16,8 @@ public interface BaseContract {
         void registerDisposable(Disposable disposable);
 
         void detach();
+    }
+
+    interface Repo extends CameraContract.Repo {
     }
 }
