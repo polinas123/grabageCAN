@@ -2,14 +2,6 @@
     <string name="app_name">garbageCAN</string>
     <string name="camera_general_error">error</string>
 
-    <!--image layout-->
-    <string name="photo_content">photo_content</string>
-
-    <!--Fragment Form-->
-    <string name="address">Address</string>
-    <string name="comments">Comments</string>
-    <string name="send">Send</string>
-
     <!--Camera Fragment-->
     <string name="flash_toggle">Flash Toggle</string>
     <string name="preview">Preview</string>
