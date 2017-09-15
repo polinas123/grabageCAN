@@ -16,7 +16,7 @@ public interface RepositoryContract {
     }
 
     interface Image {
-        Single<String> uploadPhoto(CameraEventModel cameraEventModel);
+        Single<String> uploadPhotoRx(CameraEventModel cameraEventModel);
     }
 
     interface Location {

@@ -1,6 +1,9 @@
 package com.sillyv.garbagecan.data;
 
 import com.sillyv.garbagecan.core.BaseContract;
+import com.sillyv.garbagecan.data.database.DataBaseRepo;
+import com.sillyv.garbagecan.data.images.ImageRepo;
+import com.sillyv.garbagecan.data.location.LocationRepo;
 import com.sillyv.garbagecan.screen.camera.CameraEventModel;
 
 import io.reactivex.Completable;
@@ -16,9 +19,9 @@ public class Repository
 
 
     private static Repository instance;
-    private RepositoryContract.Location locationManager;
-    private RepositoryContract.Image imageUploader;
-    private RepositoryContract.Database database;
+    private RepositoryContract.Location locationManager = new LocationRepo();
+    private RepositoryContract.Image imageUploader = new ImageRepo();
+    private RepositoryContract.Database database= new DataBaseRepo();
 
     public static Repository getInstance() {
         if (instance == null) {
@@ -37,7 +40,7 @@ public class Repository
 
     @Override
     public Single<String> uploadPhoto(CameraEventModel cameraEventModel) {
-        return imageUploader.uploadPhoto(cameraEventModel);
+        return imageUploader.uploadPhotoRx(cameraEventModel);
     }
 
     @Override

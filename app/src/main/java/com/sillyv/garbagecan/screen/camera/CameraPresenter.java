@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.sillyv.garbagecan.core.BasePresenter;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Vasili on 9/15/2017.
@@ -27,7 +29,9 @@ class CameraPresenter
 
     private void subscribeToEvents() {
         view.getSavedFile()
+                .doOnNext(cameraEventModel -> Log.d("TAG", "TEST"))
                 .doOnSubscribe(this::registerDisposable)
+                .observeOn(Schedulers.io())
                 .flatMapSingle(cameraEventModel -> repo.getLocation()
                         .map(aDouble -> {
                             cameraEventModel.setLatitude(aDouble);
@@ -40,9 +44,11 @@ class CameraPresenter
                 }))
                 .flatMapSingle(cameraEventModel -> repo.saveNewRecord(cameraEventModel)
                         .toSingle(() -> cameraEventModel))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<CameraEventModel>() {
                     @Override
                     public void onNext(CameraEventModel file) {
+                        view.displayThankYouDialog();
                         Log.d(TAG,
                                 "onNext: FilePath: " + file.getFile().getPath() +
                                         ", Score " + file.getScore() +
@@ -53,7 +59,7 @@ class CameraPresenter
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e(TAG, "onError: ",e );
                     }
 
                     @Override

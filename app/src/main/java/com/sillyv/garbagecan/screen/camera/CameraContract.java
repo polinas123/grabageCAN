@@ -22,6 +22,8 @@ public interface CameraContract {
         boolean isFlashOn();
 
         Observable<CameraEventModel> getSavedFile();
+
+        void displayThankYouDialog();
     }
 
 

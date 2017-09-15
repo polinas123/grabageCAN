@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,12 +20,10 @@ import com.sillyv.garbagecan.screen.camera.camera.CameraOldBasicFragment;
 import com.sillyv.garbagecan.util.ButtonIDHappinessMapper;
 import com.sillyv.garbagecan.util.FilesUtils;
 
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.concurrent.Semaphore;
 
-import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.PublishSubject;
@@ -203,13 +202,15 @@ public abstract class CameraFragment
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                // TODO: 9/15/2017 Handle What to do if permissions are denied
                 //                ErrorDialog.newInstance(getString(R.string.request_permission_camera)) //TODO: v4
                 // error dialog
                 //                        .show(getChildFragmentManager(), FRAGMENT_DIALOG);
-                EventBus.getDefault()
-                        .post(
-                                new PermissionsDeniedEvent(
-                                        "Camera and Storage")); //// FIXME: 19/02/2017 if permission denied - endless loop although should not be
+//                EventBus.getDefault()
+//                        .post(
+//                                new PermissionsDeniedEvent(
+//                                        "Camera and Storage")); //// FIXME: 19/02/2017 if permission denied - endless loop although should not be
             } else { //permission granted
                 initializeCameraPreview();
             }
@@ -258,6 +259,20 @@ public abstract class CameraFragment
         return subject;
     }
 
+    @Override
+    public void displayThankYouDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.thank_you_message)
+                .setPositiveButton(R.string.restart, (dialog, id) -> {
+
+                })
+                .setNegativeButton(R.string.exit, (dialog, id) -> getActivity().finish());
+        // Create the AlertDialog object and return it
+        AlertDialog  alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -265,8 +280,4 @@ public abstract class CameraFragment
 
     }
 
-    @OnClick({R.id.meh_button, R.id.happy_button, R.id.sad_button})
-    public void onViewClicked(View view) {
-
-    }
 }
