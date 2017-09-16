@@ -1,12 +1,14 @@
 package com.sillyv.garbagecan.screen.camera;
 
+import android.util.SparseArray;
+
 import com.sillyv.garbagecan.core.BaseContract;
+
+import java.util.Map;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 
 /**
  * Created by Vasili on 9/15/2017.
@@ -21,7 +23,7 @@ public interface CameraContract {
         @SuppressWarnings("unused")
         boolean isFlashOn();
 
-        Observable<CameraEventModel> getSavedFile();
+        Observable<FileUploadEvent> getSavedFile();
 
         void displayThankYouDialog();
     }
@@ -35,8 +37,10 @@ public interface CameraContract {
     interface Repo {
         Single<Double> getLocation();
 
-        Single<String> uploadPhoto(CameraEventModel cameraEventModel);
+        Single<String> uploadPhoto(FileUploadEvent fileUploadEvent);
 
-        Completable saveNewRecord(CameraEventModel cameraEventModel);
+        Completable saveNewRecord(FileUploadEvent fileUploadEvent);
+
+        Single<SparseArray<String>> getCredentials();
     }
 }

@@ -3,7 +3,7 @@ package com.sillyv.garbagecan.data.database;
 import android.util.Log;
 
 import com.sillyv.garbagecan.data.RepositoryContract;
-import com.sillyv.garbagecan.screen.camera.CameraEventModel;
+import com.sillyv.garbagecan.screen.camera.FileUploadEvent;
 
 import io.reactivex.Completable;
 
@@ -15,10 +15,10 @@ import io.reactivex.Completable;
 public class DataBaseRepo implements RepositoryContract.Database{
     private static final String TAG = "DataBaseRepo";
 
-    public Completable saveRecord(CameraEventModel cameraEventModel) {
-        Log.d(TAG, "saveRecord: " + cameraEventModel.getUploadedFilePath());
-        Log.d(TAG, "saveRecord: " + cameraEventModel.getLatitude());
-        Log.d(TAG, "saveRecord: " + cameraEventModel.getLongitude());
+    public Completable saveRecord(FileUploadEvent fileUploadEvent) {
+        Log.d(TAG, "saveRecord: " + fileUploadEvent.getUploadedFilePath());
+        Log.d(TAG, "saveRecord: " + fileUploadEvent.getLatitude());
+        Log.d(TAG, "saveRecord: " + fileUploadEvent.getLongitude());
         return Completable.complete();
     }
 }

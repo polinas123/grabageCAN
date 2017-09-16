@@ -1,6 +1,10 @@
 package com.sillyv.garbagecan.data;
 
-import com.sillyv.garbagecan.screen.camera.CameraEventModel;
+import android.util.SparseArray;
+
+import com.sillyv.garbagecan.screen.camera.FileUploadEvent;
+
+import java.util.Map;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -12,14 +16,18 @@ import io.reactivex.Single;
 
 public interface RepositoryContract {
     interface Database {
-        Completable saveRecord(CameraEventModel cameraEventModel);
+        Completable saveRecord(FileUploadEvent fileUploadEvent);
     }
 
     interface Image {
-        Single<String> uploadPhotoRx(CameraEventModel cameraEventModel);
+        Single<String> uploadPhotoRx(FileUploadEvent fileUploadEvent);
     }
 
     interface Location {
         Single<Double> getLocation();
+    }
+
+    interface Credentials {
+        Single<SparseArray<String>> getCredentialsRx();
     }
 }

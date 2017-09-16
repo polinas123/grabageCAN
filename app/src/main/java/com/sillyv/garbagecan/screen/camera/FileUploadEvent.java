@@ -1,21 +1,24 @@
 package com.sillyv.garbagecan.screen.camera;
 
+import android.util.SparseArray;
+
 import java.io.File;
 
 /**
  * Created by Vasili on 01/12/2016.
  *
  */
-public class CameraEventModel {
-
+public class FileUploadEvent {
 
     private final File file;
     private final int score;
     private double longitude;
     private double latitude;
     private String uploadedFilePath;
+    private SparseArray<String> credentialsMap;
 
-    CameraEventModel(File file, int score) {
+
+    FileUploadEvent(File file, int score) {
         this.file = file;
         this.score = score;
     }
@@ -50,5 +53,13 @@ public class CameraEventModel {
 
     void setUploadedFilePath(String uploadedFilePath) {
         this.uploadedFilePath = uploadedFilePath;
+    }
+
+    void setCredentialsMap(SparseArray<String> credentialsMap) {
+        this.credentialsMap = credentialsMap;
+    }
+
+    public SparseArray<String> getCredentialsMap() {
+        return credentialsMap;
     }
 }

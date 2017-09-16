@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.jakewharton.rxbinding2.view.RxView;
-import com.sillyv.garbagecan.PermissionsDeniedEvent;
 import com.sillyv.garbagecan.R;
 import com.sillyv.garbagecan.data.Repository;
 import com.sillyv.garbagecan.screen.camera.camera.Camera2BasicFragment;
@@ -249,13 +248,13 @@ public abstract class CameraFragment
     protected abstract void initializeCameraPreview();
 
     protected void notifyPhotoSaved() {
-        subject.onNext(new CameraEventModel(mFile, score));
+        subject.onNext(new FileUploadEvent(mFile, score));
     }
 
-    private PublishSubject<CameraEventModel> subject = PublishSubject.create();
+    private PublishSubject<FileUploadEvent> subject = PublishSubject.create();
 
     @Override
-    public Observable<CameraEventModel> getSavedFile() {
+    public Observable<FileUploadEvent> getSavedFile() {
         return subject;
     }
 
