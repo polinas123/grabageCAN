@@ -3,8 +3,7 @@ package com.sillyv.garbagecan.screen.camera;
 import android.util.SparseArray;
 
 import com.sillyv.garbagecan.core.BaseContract;
-
-import java.util.Map;
+import com.sillyv.garbagecan.data.location.LatLonModel;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -26,6 +25,8 @@ public interface CameraContract {
         Observable<FileUploadEvent> getSavedFile();
 
         void displayThankYouDialog();
+
+        void activateProgressBar(int happinessFromButton);
     }
 
 
@@ -35,7 +36,7 @@ public interface CameraContract {
     }
 
     interface Repo {
-        Single<Double> getLocation();
+        Single<LatLonModel> getLocation();
 
         Single<String> uploadPhoto(FileUploadEvent fileUploadEvent);
 

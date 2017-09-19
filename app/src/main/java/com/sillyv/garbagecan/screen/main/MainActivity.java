@@ -26,7 +26,7 @@ public class MainActivity
         double maxRatio = (double) width / height;
         double minRatio = (double) (width) / height;
         CameraFragment fragment = CameraFragment.newInstance(
-                minRatio, maxRatio);
+                minRatio * .1 , maxRatio );
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment).commit();
     }

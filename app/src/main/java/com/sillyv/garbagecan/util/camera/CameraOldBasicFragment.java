@@ -1,4 +1,4 @@
-package com.sillyv.garbagecan.screen.camera.camera;
+package com.sillyv.garbagecan.util.camera;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -121,7 +121,7 @@ public class CameraOldBasicFragment extends CameraFragment
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Create an instance of the Camera fragment layout
         View view = inflater.inflate(R.layout.fragment_camera_preview, container, false);
-        bindScoreButtons(view);
+        bindViewElements(view);
         return view;
     }
 

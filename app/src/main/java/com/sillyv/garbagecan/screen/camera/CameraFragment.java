@@ -10,15 +10,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.jakewharton.rxbinding2.view.RxView;
 import com.sillyv.garbagecan.R;
 import com.sillyv.garbagecan.data.Repository;
-import com.sillyv.garbagecan.screen.camera.camera.Camera2BasicFragment;
-import com.sillyv.garbagecan.screen.camera.camera.CameraOldBasicFragment;
 import com.sillyv.garbagecan.util.ButtonIDHappinessMapper;
 import com.sillyv.garbagecan.util.FilesUtils;
-
+import com.sillyv.garbagecan.util.camera.Camera2BasicFragment;
+import com.sillyv.garbagecan.util.camera.CameraOldBasicFragment;
 
 import java.io.File;
 import java.util.concurrent.Semaphore;
@@ -29,27 +29,19 @@ import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Vasili on 09/11/2016.
- *
  */
 public abstract class CameraFragment
         extends Fragment
         implements CameraContract.View {
 
+    static final String SAMSUNG = "samsung";
     @SuppressWarnings("unused")
     private static final String TAG = "SB.CameraPreviewFrag";
-
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-
     private static final String PREFIX_ARG = "FILE_PREFIX";
-
     private static final String BACK_CAMERA_ARG = "BACK_CAMERA";
-
     private static final String MINIMUM_RATIO = "MINIMUM_PREVIEW_RATIO";
-
     private static final String MAXIMUM_RATIO = "MAXIMUM_PREVIEW_RATIO";
-
-    static final String SAMSUNG = "samsung";
-
     /*
      * This will be prefixed to the filenames of the captured photos, located in the external storage
      * (not the public one), with the date and time, in the jpeg format
@@ -81,6 +73,8 @@ public abstract class CameraFragment
     private int score = 0;
     private DisposableObserver<Integer> buttonsObservable;
     private CameraContract.Presenter presenter;
+    private ProgressBar progressBar;
+    private PublishSubject<FileUploadEvent> subject = PublishSubject.create();
 
     public static CameraFragment newInstance(
             double minPreviewRatio,
@@ -118,8 +112,7 @@ public abstract class CameraFragment
         }
     }
 
-
-    protected void bindScoreButtons(View view) {
+    protected void bindViewElements(View view) {
         buttonsObservable = getClicks(view, R.id.meh_button)
                 .mergeWith(getClicks(view, R.id.happy_button))
                 .mergeWith(getClicks(view, R.id.sad_button))
@@ -140,9 +133,9 @@ public abstract class CameraFragment
 
                     }
                 });
+        progressBar = view.findViewById(R.id.progress_bar);
 
     }
-
 
     @Override
     public void onDestroy() {
@@ -154,10 +147,9 @@ public abstract class CameraFragment
     @NonNull
     private Observable<Integer> getClicks(View view, int viewID) {
         return RxView.clicks(view.findViewById(viewID))
-                .map(o -> viewID)
-                .map(ButtonIDHappinessMapper::getHappinessFromButton);
+                     .map(o -> viewID)
+                     .map(ButtonIDHappinessMapper::getHappinessFromButton);
     }
-
 
     protected abstract void setFlashAuto();
 
@@ -187,7 +179,6 @@ public abstract class CameraFragment
             flashToggle.setVisibility(View.GONE);
         }
     }
-
 
     /**
      * Create a File for saving an image
@@ -221,7 +212,7 @@ public abstract class CameraFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new CameraPresenter(this, Repository.getInstance());
+        presenter = new CameraPresenter(this, Repository.getInstance(getContext()));
         Bundle args = getArguments();
         filePrefix = (args != null) ? args.getString(PREFIX_ARG) : "";
         useCameraBackFacing = args == null || args.getBoolean(BACK_CAMERA_ARG);
@@ -251,8 +242,6 @@ public abstract class CameraFragment
         subject.onNext(new FileUploadEvent(mFile, score));
     }
 
-    private PublishSubject<FileUploadEvent> subject = PublishSubject.create();
-
     @Override
     public Observable<FileUploadEvent> getSavedFile() {
         return subject;
@@ -262,15 +251,26 @@ public abstract class CameraFragment
     public void displayThankYouDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.thank_you_message)
-                .setPositiveButton(R.string.restart, (dialog, id) -> {
+               .setPositiveButton(R.string.restart, (dialog, id) -> {
 
-                })
-                .setNegativeButton(R.string.exit, (dialog, id) -> getActivity().finish());
+               })
+               .setNegativeButton(R.string.exit, (dialog, id) -> getActivity().finish());
         // Create the AlertDialog object and return it
-        AlertDialog  alertDialog = builder.create();
+        AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
     }
+
+    @Override
+    public void activateProgressBar(int happinessFromButton) {
+        progressBar.setVisibility(View.VISIBLE);
+
+        progressBar.getIndeterminateDrawable().setColorFilter(happinessFromButton, android.graphics.PorterDuff.Mode.MULTIPLY);
+
+//        progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.green_progress));
+    }
+
+
 
 
     @Override

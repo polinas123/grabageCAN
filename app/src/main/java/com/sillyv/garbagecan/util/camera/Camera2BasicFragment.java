@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sillyv.garbagecan.screen.camera.camera;
+package com.sillyv.garbagecan.util.camera;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -418,7 +418,7 @@ public class Camera2BasicFragment extends CameraFragment {
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_camera_preview, container, false);
-        bindScoreButtons(view);
+        bindViewElements(view);
         return view;
     }
 

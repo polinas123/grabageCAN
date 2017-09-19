@@ -1,18 +1,19 @@
 package com.sillyv.garbagecan.data;
 
+import android.content.Context;
 import android.util.SparseArray;
 
 import com.sillyv.garbagecan.core.BaseContract;
 import com.sillyv.garbagecan.data.credentials.CredentialsRepo;
 import com.sillyv.garbagecan.data.database.DataBaseRepo;
 import com.sillyv.garbagecan.data.images.ImageRepo;
+import com.sillyv.garbagecan.data.location.LatLonModel;
 import com.sillyv.garbagecan.data.location.LocationRepo;
 import com.sillyv.garbagecan.screen.camera.FileUploadEvent;
 
-import java.util.Map;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
+
 
 /**
  * Created by Vasili on 9/15/2017.
@@ -22,25 +23,26 @@ import io.reactivex.Single;
 public class Repository
         implements BaseContract.Repo {
 
-
     private static Repository instance;
-    private RepositoryContract.Location locationManager = new LocationRepo();
+    private Context context;
+    private RepositoryContract.Location locationManager = LocationRepo.getInstance(context);
     private RepositoryContract.Image imageUploader = new ImageRepo();
-    private RepositoryContract.Database database= new DataBaseRepo();
+    private RepositoryContract.Database database = new DataBaseRepo();
     private RepositoryContract.Credentials credentialsRepo = new CredentialsRepo();
 
-    public static Repository getInstance() {
+    private Repository(Context context) {
+        this.context = context;
+    }
+
+    public static Repository getInstance(Context context) {
         if (instance == null) {
-            instance = new Repository();
+            instance = new Repository(context);
         }
         return instance;
     }
 
-    private Repository() {
-    }
-
     @Override
-    public Single<Double> getLocation() {
+    public Single<LatLonModel> getLocation() {
         return locationManager.getLocation();
     }
 
@@ -55,5 +57,7 @@ public class Repository
     }
 
     @Override
-    public Single<SparseArray<String>> getCredentials() {return credentialsRepo.getCredentialsRx();}
+    public Single<SparseArray<String>> getCredentials() {
+        return credentialsRepo.getCredentialsRx();
+    }
 }
