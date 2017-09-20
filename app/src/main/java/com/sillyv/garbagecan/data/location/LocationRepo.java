@@ -11,6 +11,7 @@ import io.reactivex.Single;
 
 /**
  * Created by Vasili on 9/15/2017.
+ *
  */
 
 public class LocationRepo implements RepositoryContract.Location {

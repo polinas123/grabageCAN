@@ -29,6 +29,7 @@ import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Vasili on 09/11/2016.
+ *
  */
 public abstract class CameraFragment
         extends Fragment
@@ -37,7 +38,6 @@ public abstract class CameraFragment
     static final String SAMSUNG = "samsung";
     @SuppressWarnings("unused")
     private static final String TAG = "SB.CameraPreviewFrag";
-    private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String PREFIX_ARG = "FILE_PREFIX";
     private static final String BACK_CAMERA_ARG = "BACK_CAMERA";
     private static final String MINIMUM_RATIO = "MINIMUM_PREVIEW_RATIO";
@@ -147,8 +147,8 @@ public abstract class CameraFragment
     @NonNull
     private Observable<Integer> getClicks(View view, int viewID) {
         return RxView.clicks(view.findViewById(viewID))
-                     .map(o -> viewID)
-                     .map(ButtonIDHappinessMapper::getHappinessFromButton);
+                .map(o -> viewID)
+                .map(ButtonIDHappinessMapper::getHappinessFromButton);
     }
 
     protected abstract void setFlashAuto();
@@ -188,28 +188,6 @@ public abstract class CameraFragment
     }
 
     @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-
-                // TODO: 9/15/2017 Handle What to do if permissions are denied
-                //                ErrorDialog.newInstance(getString(R.string.request_permission_camera)) //TODO: v4
-                // error dialog
-                //                        .show(getChildFragmentManager(), FRAGMENT_DIALOG);
-//                EventBus.getDefault()
-//                        .post(
-//                                new PermissionsDeniedEvent(
-//                                        "Camera and Storage")); //// FIXME: 19/02/2017 if permission denied - endless loop although should not be
-            } else { //permission granted
-                initializeCameraPreview();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new CameraPresenter(this, Repository.getInstance(getContext()));
@@ -223,17 +201,8 @@ public abstract class CameraFragment
     @Override
     public void onResume() {
         super.onResume();
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED) {
-            initializeCameraPreview();
-        } else {
-            requestPermissions(
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
-                    REQUEST_CAMERA_PERMISSION);
-        }
+
+        initializeCameraPreview();
     }
 
     protected abstract void initializeCameraPreview();
@@ -251,10 +220,10 @@ public abstract class CameraFragment
     public void displayThankYouDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.thank_you_message)
-               .setPositiveButton(R.string.restart, (dialog, id) -> {
+                .setPositiveButton(R.string.restart, (dialog, id) -> {
 
-               })
-               .setNegativeButton(R.string.exit, (dialog, id) -> getActivity().finish());
+                })
+                .setNegativeButton(R.string.exit, (dialog, id) -> getActivity().finish());
         // Create the AlertDialog object and return it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -265,12 +234,11 @@ public abstract class CameraFragment
     public void activateProgressBar(int happinessFromButton) {
         progressBar.setVisibility(View.VISIBLE);
 
-        progressBar.getIndeterminateDrawable().setColorFilter(happinessFromButton, android.graphics.PorterDuff.Mode.MULTIPLY);
+        progressBar.getIndeterminateDrawable()
+                .setColorFilter(happinessFromButton, android.graphics.PorterDuff.Mode.MULTIPLY);
 
 //        progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.green_progress));
     }
-
-
 
 
     @Override

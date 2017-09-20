@@ -24,14 +24,13 @@ public class Repository
         implements BaseContract.Repo {
 
     private static Repository instance;
-    private Context context;
-    private RepositoryContract.Location locationManager = LocationRepo.getInstance(context);
+    private RepositoryContract.Location locationManager;
     private RepositoryContract.Image imageUploader = new ImageRepo();
     private RepositoryContract.Database database = new DataBaseRepo();
     private RepositoryContract.Credentials credentialsRepo = new CredentialsManager();
 
     private Repository(Context context) {
-        this.context = context;
+        locationManager = LocationRepo.getInstance(context);
     }
 
     public static Repository getInstance(Context context) {
