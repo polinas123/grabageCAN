@@ -33,42 +33,43 @@ class CameraPresenter
 
     private void subscribeToEvents() {
         view.getSavedFile()
-            .doOnNext(cameraEventModel -> Log.d("TAG", "TEST"))
-            .doOnNext(cameraEventModel -> view.activateProgressBar(HappinessColorMapper
-                    .getHappinessFromButton(cameraEventModel.getScore())))
-            .doOnSubscribe(this::registerDisposable)
-            .observeOn(Schedulers.io())
-            .flatMapSingle(fileUploadEvent -> repo.getLocation()
-                                                  .map(CameraPresenter.this.injectLocationIntoUploadModel(fileUploadEvent)))
-            .flatMapSingle(fileUploadEvent -> repo.getCredentials()
-                                                  .map(CameraPresenter.this.injectCredentialsIntoUploadModel(fileUploadEvent)))
-            .flatMapSingle(fileUploadEvent -> repo.uploadPhoto(fileUploadEvent)
-                                                  .map(injectRemotePathIntoUploadModel(fileUploadEvent)))
-            .flatMapSingle(fileUploadEvent -> repo.saveNewRecord(fileUploadEvent)
-                                                  .toSingle(() -> fileUploadEvent))
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(new DisposableObserver<FileUploadEvent>() {
-                @Override
-                public void onNext(FileUploadEvent file) {
-                    view.displayThankYouDialog();
-                    Log.d(TAG,
-                            "onNext: FilePath: " + file.getFile().getPath() +
-                                    ", Score " + file.getScore() +
-                                    ", Lat: " + file.getLatitude() +
-                                    ", Lon: " + file.getLongitude()
-                    );
-                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(cameraEventModel -> view.activateProgressBar(HappinessColorMapper
+                        .getHappinessFromButton(cameraEventModel.getScore())))
+                .doOnSubscribe(this::registerDisposable)
+                .observeOn(Schedulers.io())
+                .flatMapSingle(fileUploadEvent -> repo.getLocation()
+                        .map(CameraPresenter.this.injectLocationIntoUploadModel(fileUploadEvent)))
+                .flatMapSingle(fileUploadEvent -> repo.getCredentials()
+                        .map(CameraPresenter.this.injectCredentialsIntoUploadModel(fileUploadEvent)))
+                .flatMapSingle(fileUploadEvent -> repo.uploadPhoto(fileUploadEvent)
+                        .map(injectRemotePathIntoUploadModel(fileUploadEvent)))
+                .flatMapSingle(fileUploadEvent -> repo.saveNewRecord(fileUploadEvent)
+                        .toSingle(() -> fileUploadEvent))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<FileUploadEvent>() {
+                    @Override
+                    public void onNext(FileUploadEvent file) {
+                        view.hideProgressBar();
+                        view.displayThankYouDialog();
+                        Log.d(TAG,
+                                "onNext: FilePath: " + file.getFile().getPath() +
+                                        ", Score " + file.getScore() +
+                                        ", Lat: " + file.getLatitude() +
+                                        ", Lon: " + file.getLongitude()
+                        );
+                    }
 
-                @Override
-                public void onError(Throwable e) {
-                    Log.e(TAG, "onError: ", e);
-                }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: ", e);
+                    }
 
-                @Override
-                public void onComplete() {
+                    @Override
+                    public void onComplete() {
 
-                }
-            });
+                    }
+                });
     }
 
     private Function<SparseArray<String>, FileUploadEvent> injectCredentialsIntoUploadModel(

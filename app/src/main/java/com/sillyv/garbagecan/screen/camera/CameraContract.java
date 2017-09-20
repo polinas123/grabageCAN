@@ -27,6 +27,8 @@ public interface CameraContract {
         void displayThankYouDialog();
 
         void activateProgressBar(int happinessFromButton);
+
+        void  hideProgressBar();
     }
 
 

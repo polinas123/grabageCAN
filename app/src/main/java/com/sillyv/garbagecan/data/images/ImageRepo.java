@@ -9,6 +9,8 @@ import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.sftp.SFTPClient;
 import net.schmizz.sshj.xfer.FileSystemFile;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.io.IOException;
 
 import io.reactivex.Single;
@@ -28,10 +30,11 @@ public class ImageRepo
 
 
     private String uploadPhoto(FileUploadEvent fileUploadEvent) throws IOException {
+
         final SSHClient ssh = new SSHClient();
         ssh.addHostKeyVerifier(fileUploadEvent.getCredentialsMap()
                 .get(CredentialsManager.HOST_KEY_KEY));
-        ssh.connect(fileUploadEvent.getCredentialsMap().get(CredentialsManager.SERVER_KEY));
+        ssh.connect(fileUploadEvent.getCredentialsMap().get(CredentialsManager.SERVER_KEY),22);
         try {
             ssh.authPassword(fileUploadEvent.getCredentialsMap().get(CredentialsManager.USERNAME_KEY),
                     fileUploadEvent.getCredentialsMap().get(CredentialsManager.PASSWORD_KEY));
@@ -44,7 +47,7 @@ public class ImageRepo
         } finally {
             ssh.disconnect();
         }
-        return "kmj";
+        return "test";
     }
 
 

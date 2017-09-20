@@ -29,7 +29,6 @@ import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Vasili on 09/11/2016.
- *
  */
 public abstract class CameraFragment
         extends Fragment
@@ -238,6 +237,11 @@ public abstract class CameraFragment
                 .setColorFilter(happinessFromButton, android.graphics.PorterDuff.Mode.MULTIPLY);
 
 //        progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.green_progress));
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
 
