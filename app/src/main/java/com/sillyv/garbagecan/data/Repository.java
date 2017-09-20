@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.SparseArray;
 
 import com.sillyv.garbagecan.core.BaseContract;
-import com.sillyv.garbagecan.data.credentials.CredentialsRepo;
+import com.sillyv.garbagecan.data.credentials.CredentialsManager;
 import com.sillyv.garbagecan.data.database.DataBaseRepo;
 import com.sillyv.garbagecan.data.images.ImageRepo;
 import com.sillyv.garbagecan.data.location.LatLonModel;
@@ -28,7 +28,7 @@ public class Repository
     private RepositoryContract.Location locationManager = LocationRepo.getInstance(context);
     private RepositoryContract.Image imageUploader = new ImageRepo();
     private RepositoryContract.Database database = new DataBaseRepo();
-    private RepositoryContract.Credentials credentialsRepo = new CredentialsRepo();
+    private RepositoryContract.Credentials credentialsRepo = new CredentialsManager();
 
     private Repository(Context context) {
         this.context = context;

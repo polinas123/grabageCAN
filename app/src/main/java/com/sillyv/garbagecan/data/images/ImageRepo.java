@@ -2,7 +2,7 @@ package com.sillyv.garbagecan.data.images;
 
 
 import com.sillyv.garbagecan.data.RepositoryContract;
-import com.sillyv.garbagecan.data.credentials.CredentialsRepo;
+import com.sillyv.garbagecan.data.credentials.CredentialsManager;
 import com.sillyv.garbagecan.screen.camera.FileUploadEvent;
 
 import net.schmizz.sshj.SSHClient;
@@ -30,16 +30,16 @@ public class ImageRepo
     private String uploadPhoto(FileUploadEvent fileUploadEvent) throws IOException {
         final SSHClient ssh = new SSHClient();
         ssh.addHostKeyVerifier(fileUploadEvent.getCredentialsMap()
-                .get(CredentialsRepo.HOST_KEY_KEY));
-        ssh.connect(fileUploadEvent.getCredentialsMap().get(CredentialsRepo.SERVER_KEY));
+                .get(CredentialsManager.HOST_KEY_KEY));
+        ssh.connect(fileUploadEvent.getCredentialsMap().get(CredentialsManager.SERVER_KEY));
         try {
-            ssh.authPassword(fileUploadEvent.getCredentialsMap().get(CredentialsRepo.USERNAME_KEY),
-                    fileUploadEvent.getCredentialsMap().get(CredentialsRepo.PASSWORD_KEY));
+            ssh.authPassword(fileUploadEvent.getCredentialsMap().get(CredentialsManager.USERNAME_KEY),
+                    fileUploadEvent.getCredentialsMap().get(CredentialsManager.PASSWORD_KEY));
             final String src = fileUploadEvent.getFile().getPath();
             try (SFTPClient sftp = ssh.newSFTPClient()) {
                 sftp.put(new FileSystemFile(src),
                         fileUploadEvent.getCredentialsMap()
-                                .get(CredentialsRepo.SERVER_INTERNAL_PATH_KEY));
+                                .get(CredentialsManager.SERVER_INTERNAL_PATH_KEY));
             }
         } finally {
             ssh.disconnect();

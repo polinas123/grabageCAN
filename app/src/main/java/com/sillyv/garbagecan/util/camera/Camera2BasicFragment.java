@@ -683,7 +683,7 @@ public class Camera2BasicFragment extends CameraFragment {
         } catch (NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            //            ErrorDialog.newInstance(getString(R.string.camera_api_error)) //TODO:v4 dialogFragment to
+            //            ErrorDialog.newInstance(getString(R.string.camera_api_error)) //TODO:v4 dialogFragment toh
             // show errors
             //                    .show(getChildFragmentManager(), FRAGMENT_DIALOG);
         }

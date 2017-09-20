@@ -1,10 +1,10 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 /.idea
-.DS_Store
 /build
-/captures
-.externalNativeBuild
+libs/
+src/androidTest/
+src/main/res/drawable/
+/app/src/main/java/com/sillyv/garbagecan/data/credentials/CredentialsRepo.java
+/app/src/main/java/com/sillyv/garbagecan/data/credentials/CredentialsManager.java
