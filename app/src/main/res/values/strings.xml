@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">garbageCAN</string>
+    <string name="camera_general_error">error</string>
+
+    <!--Camera Fragment-->
+    <string name="flash_toggle">Flash Toggle</string>
+    <string name="preview">Preview</string>
+    <string name="take_photo_button">Take Photo Button</string>
+    <string name="approve_button">Approve Button</string>
+    <string name="add_photo_button">Add Photo Button</string>
+    <string name="flash_button">Flash Button</string>
+    <string name="thank_you_message">Thank you</string>
+    <string name="restart">restart</string>
+    <string name="exit">exit</string>
+
+
+</resources>
