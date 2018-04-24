@@ -1,16 +1,14 @@
 # grabageCAN
 a rating app for garbage disposal, created to drive civic activism and cleaner cities
 
-This app makes it suoer easy to report the status of garbage disposal near you. Is the grabage can clean? dirty? overflowing?
-Data collected from this app will be visible to citizens and municipalities, empowering civic engagement (through traditional channels, as well as social media) and providing a usefull tool for garbage disposal management. Our goal is to create a leverage for activists taking action in order to make our city clean. 
+This app makes it super easy to report the status of garbage disposal near you. Is the grabage can clean or overflowing?
+Data collected from this app will be visible to citizens and municipalities, empowering civic engagement (through traditional channels, as well as social media). 
+Our goal is to provide leverage for activists taking action in order to make our city clean. 
 
-We need YOU:
+How can you help?
 
-1. backend programmers: PHP + MySQL
-2. UI/UX specialists, designers
-3. marketing & branding ninjas
-4. iOS programmers
-5. dataviz experts
-6. marketing & branding ninjas
-7. social media wizards
+we currently have some frontend code for an android app, and a very basic design. You're welcome to join us, especially if you have one or more of the following skills:
+1. backend developers: node.Js + MySQL
+2. designers and UI/UX specialists
+3. ios developers
 
